@@ -1,0 +1,29 @@
+$black: #151515;
+$light-gray: #f5f5f5;
+$gray: #bfbfbf;
+$dark-gray: #7f7f7f;
+$white: #ffffff;
+
+@font-face {
+  font-family: "NanumMyeongjo";
+  src: local("NanumMyeongjo Regular"), local("NanumMyeongjo-Regular"),
+    url(../font/NanumMyeongjo-Regular.ttf) format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "NanumMyeongjo";
+  src: local("NanumMyeongjo Bold"), local("NanumMyeongjo-Bold"),
+    url(../font/NanumMyeongjo-Bold.ttf) format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "NanumMyeongjo";
+  src: local("NanumMyeongjo ExtraBold"), local("NanumMyeongjo-ExtraBold"),
+    url(../font/NanumMyeongjo-ExtraBold.ttf) format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}

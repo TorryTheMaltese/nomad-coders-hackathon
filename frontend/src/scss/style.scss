@@ -1,0 +1,11 @@
+@import "_reset";
+@import "_variables";
+
+body {
+  font-family: "NanumMyeongjo", serif;
+  display: flex;
+  background-color: $white;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

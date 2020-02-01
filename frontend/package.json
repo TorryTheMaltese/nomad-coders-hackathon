@@ -3,37 +3,60 @@
   "version": "1.0.0",
   "description": "Nomad Coders Hackathon",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TorryTheMaltese/nomad-coders-hackathon.git"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --watch",
+    "dev": "webpack-dev-server --hot"
   },
   "author": "TorryTheMaltese",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
-    "@babel/register": "^7.8.3",
-    "@vue/cli-plugin-babel": "^4.1.2",
-    "@vue/cli-plugin-eslint": "^4.1.2",
-    "@vue/cli-service": "^4.1.2",
-    "@vue/eslint-config-airbnb": "^5.0.2",
     "babel-eslint": "^10.0.3",
-    "babelify": "^10.0.0",
-    "del": "^5.1.0",
+    "css-loader": "^3.4.2",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-vue": "^6.1.2",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^7.0.1",
-    "gulp-bro": "^2.0.0",
-    "gulp-csso": "^4.0.1",
-    "gulp-image": "^6.0.0",
-    "gulp-sass": "^4.0.2",
-    "gulp-webserver": "^0.9.1",
     "node-sass": "^4.13.1",
+    "sass-loader": "^8.0.2",
     "uglifyify": "^5.0.2",
     "vue": "^2.6.11",
+    "vue-loader": "^15.8.3",
     "vue-router": "^3.1.5",
-    "vue-template-compiler": "^2.6.11"
-  }
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.11",
+    "vueify": "^9.4.1",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.2"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "@vue/airbnb"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "plugins": [
+      "vue"
+    ]
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
 }

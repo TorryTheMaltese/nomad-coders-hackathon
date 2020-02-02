@@ -1,14 +1,34 @@
 <template>
-  <header-component></header-component>
+  <div>
+    <header-nav></header-nav>
+    <div class="head"></div>
+    <slide-carousel></slide-carousel>
+    <card-carousel></card-carousel>
+  </div>
 </template>
 
 <script>
-import HeaderComponent from "../components/Header.vue";
+import HeaderNav from "../components/Header";
+import CardCarousel from "../components/CardCarousel";
+import SlideCarousel from "../components/SlideCarousel";
+
 export default {
   components: {
-    HeaderComponent
+    HeaderNav,
+    SlideCarousel,
+    CardCarousel
   }
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+div {
+  margin: 0;
+}
+
+.head {
+  width: 100%;
+  height: 60px;
+  position: relative;
+}
+</style>

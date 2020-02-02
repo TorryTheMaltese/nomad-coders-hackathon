@@ -14,7 +14,7 @@
       </div>
       <div class="right-menu">
         <button class="search-btn fa-search"></button>
-        <a href="" class="right-menu-btn">
+        <a href class="right-menu-btn">
           <span class="right-menu-btn-tag">로그인 / 회원가입</span>
           <span class="profile">
             <span class="profile-image"></span>

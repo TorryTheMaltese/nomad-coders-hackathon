@@ -8,19 +8,23 @@
     "url": "https://github.com/TorryTheMaltese/nomad-coders-hackathon.git"
   },
   "scripts": {
-    "build": "webpack --watch",
+    "build": "webpack --mode development",
     "dev": "webpack-dev-server --mode development --hot"
   },
   "author": "TorryTheMaltese",
   "license": "ISC",
   "devDependencies": {
+    "axios": "^0.19.2",
     "babel-eslint": "^10.0.3",
+    "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.4.2",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-vue": "^6.1.2",
     "file-loader": "^5.0.2",
+    "html-webpack-plugin": "^3.2.0",
+    "image-webpack-loader": "^6.0.0",
     "node-sass": "^4.13.1",
     "sass-loader": "^8.0.2",
     "sass-resources-loader": "^2.0.1",
@@ -28,6 +32,7 @@
     "uglifyify": "^5.0.2",
     "url-loader": "^3.0.0",
     "vue": "^2.6.11",
+    "vue-carousel": "^0.18.0",
     "vue-loader": "^15.8.3",
     "vue-router": "^3.1.5",
     "vue-style-loader": "^4.1.2",

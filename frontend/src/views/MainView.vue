@@ -1,7 +1,6 @@
 <template>
-  <div>
+  <div style="margin: 0;">
     <header-nav></header-nav>
-    <div class="head"></div>
     <slide-carousel></slide-carousel>
     <card-carousel></card-carousel>
   </div>
@@ -22,13 +21,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-div {
-  margin: 0;
-}
-
-.head {
-  width: 100%;
-  height: 60px;
-  position: relative;
-}
 </style>

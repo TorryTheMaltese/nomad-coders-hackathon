@@ -1,32 +1,60 @@
 <template>
-  <div class="header">
-    <div class="header-container">
-      <div class="left-menu">
-        <button class="left-menu-btn">
+  <div style="margin:0">
+    <div class="header">
+      <div class="header-container">
+        <div class="left-menu">
+          <!-- <button class="left-menu-btn">
           <i class="left-menu-btn-icon fas fa-book fa-book-open"></i>
           <span class="left-menu-btn-tag">책 추천하기</span>
-        </button>
-      </div>
-      <div class="center-menu">
-        <a href="/" class="button-link">
-          <div class="logo">GOODREADS</div>
-        </a>
-      </div>
-      <div class="right-menu">
-        <button class="search-btn fa-search"></button>
-        <a href class="right-menu-btn">
+          </button>-->
+          <router-link to="/" tag="button" class="left-menu-btn">
+            <i class="left-menu-btn-icon fas fa-book fa-book-open"></i>
+            <span class="left-menu-btn-tag">책 추천하기</span>
+          </router-link>
+        </div>
+        <div class="center-menu">
+          <!-- <a href="/" class="button-link">
+            <div class="logo">GOODREADS</div>
+          </a>-->
+          <router-link tag="a" to="/" class="button-link">
+            <div class="logo">GOODREADS</div>
+          </router-link>
+        </div>
+        <div class="right-menu">
+          <button class="search-btn fa-search"></button>
+          <!-- <a href="/login" class="right-menu-btn">
           <span class="right-menu-btn-tag">로그인 / 회원가입</span>
           <span class="profile">
             <span class="profile-image"></span>
           </span>
-        </a>
+          </a>-->
+          <router-link to="/login" tag="a" class="right-menu-btn">
+            <span class="right-menu-btn-tag">로그인 / 회원가입</span>
+            <span class="profile">
+              <span class="profile-image"></span>
+            </span>
+          </router-link>
+        </div>
       </div>
     </div>
+    <div class="head"></div>
   </div>
 </template>
 
+<script>
+import router from "../routes/routes.js";
+export default {
+  router
+};
+</script>
+
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css?family=Noto+Serif+KR&display=swap");
+.head {
+  width: 100%;
+  height: 60px;
+  position: relative;
+}
 
 .header {
   position: fixed;

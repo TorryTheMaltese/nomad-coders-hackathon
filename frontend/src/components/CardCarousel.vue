@@ -68,7 +68,8 @@ export default {
   computed: {
     atEndOfList() {
       return (
-        this.currentOffset <= this.paginationFactor * -1 * (this.books.length - this.windowsize)
+        this.currentOffset <=
+        this.paginationFactor * -1 * (this.books.length - this.windowsize)
       );
     },
     atHeadOfList() {
@@ -140,7 +141,7 @@ export default {
   cursor: pointer;
   color: $black;
   position: relative;
-  width: 100%;
+  width: fit-content;
 }
 
 .card-carousel .overflow-container {

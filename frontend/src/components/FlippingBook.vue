@@ -1,13 +1,15 @@
 <template>
-  <div class="book">
-    <div class="back"></div>
-    <div class="page6"></div>
-    <div class="page5"></div>
-    <div class="page4"></div>
-    <div class="page3"></div>
-    <div class="page2"></div>
-    <div class="page1"></div>
-    <div class="front"></div>
+  <div class="book-wrapper">
+    <div class="book">
+      <div class="back"></div>
+      <div class="page6"></div>
+      <div class="page5"></div>
+      <div class="page4"></div>
+      <div class="page3"></div>
+      <div class="page2"></div>
+      <div class="page1"></div>
+      <div class="front"></div>
+    </div>
   </div>
 </template>
 
@@ -16,12 +18,17 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
+.book-wrapper {
+  width: fit-content;
+  display: flex;
+}
 .book {
   transform-style: preserve-3d;
   position: relative;
-  height: 300px;
+  height: 200px;
   cursor: pointer;
   backface-visibility: visible;
+  margin: 10px;
 }
 
 .front,
@@ -34,7 +41,7 @@ export default {};
 .page6 {
   transform-style: preserve-3d;
   position: absolute;
-  width: 200px;
+  width: 150px;
   height: 100%;
   top: 0;
   left: 0;
@@ -44,7 +51,8 @@ export default {};
 
 .front,
 .back {
-  background: navy;
+  background: $dark-gray;
+  background-size: cover;
 }
 
 .front,

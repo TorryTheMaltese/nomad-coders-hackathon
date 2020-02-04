@@ -1,14 +1,10 @@
 <template>
   <div class="thumbnail-wrapper">
     <div class="thumbnail">
-      <img class="thumbnail-img" src="../images/no-image.png" alt="" />
+      <img class="thumbnail-img" src="../images/no-image.png" alt />
       <div class="thumbnail-footer">
-        <p class="title">
-          {{ book.title }}
-        </p>
-        <p class="caption">
-          {{ book.description }}
-        </p>
+        <p class="title">{{ book.title }}</p>
+        <p class="caption">{{ book.description }}</p>
         <div class="tags">
           <p class="tag">{{ book.tag }}</p>
         </div>

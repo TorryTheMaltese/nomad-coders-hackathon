@@ -3,31 +3,21 @@
     <div class="header">
       <div class="header-container">
         <div class="left-menu">
-          <!-- <button class="left-menu-btn">
-          <i class="left-menu-btn-icon fas fa-book fa-book-open"></i>
-          <span class="left-menu-btn-tag">책 추천하기</span>
-          </button>-->
           <router-link to="/" tag="button" class="left-menu-btn">
             <i class="left-menu-btn-icon fas fa-book fa-book-open"></i>
             <span class="left-menu-btn-tag">책 추천하기</span>
           </router-link>
         </div>
+
         <div class="center-menu">
-          <!-- <a href="/" class="button-link">
-            <div class="logo">GOODREADS</div>
-          </a>-->
           <router-link tag="a" to="/" class="button-link">
             <div class="logo">GOODREADS</div>
           </router-link>
         </div>
+
         <div class="right-menu">
-          <button class="search-btn fa-search"></button>
-          <!-- <a href="/login" class="right-menu-btn">
-          <span class="right-menu-btn-tag">로그인 / 회원가입</span>
-          <span class="profile">
-            <span class="profile-image"></span>
-          </span>
-          </a>-->
+          <!-- <button class="search-btn fa-search"></button> -->
+          <router-link to="/search" class="search-btn fa-search"></router-link>
           <router-link to="/login" tag="a" class="right-menu-btn">
             <span class="right-menu-btn-tag">로그인 / 회원가입</span>
             <span class="profile">
@@ -71,7 +61,6 @@ export default {
   padding: 0;
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
   color: $black;
-  // font-family: NanumMyeongjo;
   font-family: "Noto Serif KR", serif;
 }
 
@@ -176,6 +165,7 @@ export default {
 
 .fa-search::before {
   content: "\f002";
+  color: $black;
 }
 
 .right-menu .right-menu-btn {
@@ -191,7 +181,6 @@ export default {
 
 .right-menu .right-menu-btn .right-menu-btn-tag {
   font-size: 15px;
-  // font-family: NanumMyeongjo;
   font-family: "Noto Serif KR", serif;
   cursor: pointer;
   line-height: 60px;

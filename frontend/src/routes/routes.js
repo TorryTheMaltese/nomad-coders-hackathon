@@ -4,6 +4,7 @@ import MainView from "../views/MainView.vue";
 import PreView from "../views/PreView";
 import LoginView from "../views/LoginView";
 import JoinView from "../views/JoinView";
+import SearchView from "../views/SearchView";
 
 Vue.use(Router);
 
@@ -26,6 +27,10 @@ export default new Router({
     {
       path: "/join",
       component: JoinView
+    },
+    {
+      path: "/search",
+      component: SearchView
     }
   ]
 });

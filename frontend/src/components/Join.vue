@@ -54,12 +54,15 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 15px;
-  height: 60%;
   font-family: "Noto Serif KR", serif;
 }
 
 .join-form-wrapper {
   width: 400px;
+  padding: 50px;
+  border: 1px solid $light-gray;
+  border-radius: 30px;
+  background-color: $white;
 }
 
 .join-form {
@@ -70,14 +73,9 @@ export default {
   display: block;
   color: $black;
   text-align: center;
-  margin: 20px;
   font-size: 2em;
   margin-bottom: 40px;
   font-weight: bold;
-}
-
-.form-title:hover {
-  text-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
 }
 
 .form-input-wrapper {

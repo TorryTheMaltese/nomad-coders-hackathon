@@ -7,14 +7,14 @@
     :loop="true"
     :paginationPadding="5"
   >
-    <slide class="slide">
-      <div class="test">slide 1</div>
+    <slide class="slide1">
+      <div class="slide-content">slide 1</div>
     </slide>
-    <slide class="slide">
-      <div class="test">slide 2</div>
+    <slide class="slide2">
+      <div class="slide-content">slide 2</div>
     </slide>
-    <slide class="slide">
-      <div class="test">slide 3</div>
+    <slide class="slide3">
+      <div class="slide-content">slide 3</div>
     </slide>
   </carousel>
 </template>
@@ -34,14 +34,34 @@ export default {
   width: 100%;
 }
 
-.test {
+.slide1 {
+  background-color: navy;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.slide2 {
+  background-color: #ff8202;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.slide3 {
+  background-color: rebeccapurple;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.slide-content {
   width: 100%;
   height: 400px;
-  background-color: $gray;
+  background-color: transparent;
   align-items: center;
-  color: #999;
+  color: #fff;
   display: flex;
   font-size: 1.5rem;
   justify-content: center;
+  cursor: pointer;
 }
 </style>

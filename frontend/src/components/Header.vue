@@ -16,8 +16,8 @@
         </div>
 
         <div class="right-menu">
-          <!-- <button class="search-btn fa-search"></button> -->
-          <router-link to="/search" class="search-btn fa-search"></router-link>
+          <!-- <router-link to="/search" class="search-btn fa-search"></router-link> -->
+          <button @click="onClickSearch" to="/search" class="search-btn fa-search"></button>
           <router-link to="/login" tag="a" class="right-menu-btn">
             <span class="right-menu-btn-tag">로그인 / 회원가입</span>
             <span class="profile">
@@ -28,13 +28,28 @@
       </div>
     </div>
     <div class="head"></div>
+    <search-bar @close="onClickClose" v-if="searchComponent"></search-bar>
   </div>
 </template>
 
 <script>
 import router from "../routes/routes.js";
+import SearchBar from "./SearchBar";
+
 export default {
-  router
+  router,
+  components: { SearchBar },
+  data() {
+    return { searchComponent: false };
+  },
+  methods: {
+    onClickSearch() {
+      this.searchComponent = true;
+    },
+    onClickClose() {
+      this.searchComponent = false;
+    }
+  }
 };
 </script>
 
@@ -106,7 +121,7 @@ export default {
   margin: 0 0.25rem 0 0;
   width: 1.2em;
   height: 1em;
-  font-family: Icons;
+  font-family: IconSolid;
   font-style: normal;
   font-weight: 400;
   text-decoration: inherit;
@@ -157,7 +172,7 @@ export default {
   min-height: 1em;
   border: none;
   vertical-align: baseline;
-  font-family: Icons;
+  font-family: IconSolid;
   background: transparent;
   text-align: center;
   font-size: 18px;

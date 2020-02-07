@@ -15,10 +15,13 @@ export default {
   components: {
     HeaderNav,
     SlideCarousel,
-    CardCarousel,
+    CardCarousel
   }
 };
 </script>
 
 <style lang="scss" scoped>
+div {
+  user-select: none;
+}
 </style>

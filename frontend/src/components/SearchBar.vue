@@ -1,5 +1,5 @@
 <template>
-  <div class="search-header">
+  <div ref="searchHeader" class="search-header">
     <div class="search-wrapper">
       <div class="search-input-widget">
         <form class="search-form">
@@ -9,7 +9,8 @@
         </form>
       </div>
       <div class="search-btn-wrapper">
-        <router-link to="/" tag="button" class="search-btn fa-times"></router-link>
+        <!-- <router-link to="/" @click="onClickClose()" tag="button" class="search-btn fa-times"></router-link> -->
+        <button @click.self="$emit('close')" class="search-btn fa-times"></button>
       </div>
     </div>
     <div class="auto-complete">
@@ -31,7 +32,12 @@
 <script>
 import router from "../routes/routes.js";
 export default {
-  router
+  router,
+  methods: {
+    onClickClose() {
+      this.$refs.searchHeader.style.display = "none";
+    }
+  }
 };
 </script>
 
@@ -41,12 +47,13 @@ export default {
 /*[search header]***********************************************************************************************************/
 
 .search-header {
-  position: absolute;
+  position: fixed;
   z-index: 9999;
   width: 100%;
   height: 100%;
   left: 0;
   top: 0;
+  background-color: $white;
 }
 
 .search-wrapper {
@@ -83,7 +90,7 @@ export default {
   border: none;
   vertical-align: baseline;
   user-select: none;
-  font-family: Icons;
+  font-family: IconSolid;
   background: transparent;
   font-size: 1.3rem;
 }
@@ -127,7 +134,7 @@ export default {
   border: none;
   vertical-align: baseline;
   user-select: none;
-  font-family: Icons;
+  font-family: IconSolid;
   background: transparent;
   font-size: 1.3rem;
 }
@@ -199,7 +206,7 @@ export default {
 }
 
 .result-list dd .result-item-icon {
-  font-family: Icons;
+  font-family: IconSolid;
 }
 
 /*[icon fonts]***********************************************************************************************************/

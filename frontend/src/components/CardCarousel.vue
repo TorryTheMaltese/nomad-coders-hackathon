@@ -15,6 +15,7 @@
 
 <script>
 import ThumbnailCard from "./ThumbnailCard";
+import axios from "axios";
 
 export default {
   data() {
@@ -22,44 +23,7 @@ export default {
       currentOffset: 0,
       windowsize: 5,
       paginationFactor: 214,
-      books: [
-        {
-          id: 0,
-          title: "King Lear",
-          description: "The Story of King Lear",
-          tag: "tragedy"
-        },
-        {
-          id: 1,
-          title: "Hamlet",
-          description: "The Tragimall Historie of Hamlet, Prince",
-          tag: "tragedy"
-        },
-        {
-          id: 2,
-          title: "Romeo and Juliet",
-          description: "The Story of their love",
-          tag: "tragedy"
-        },
-        {
-          id: 3,
-          title: "All's Well That Ends Well",
-          description: "a play by William Shakespeare",
-          tag: "comedy"
-        },
-        {
-          id: 4,
-          title: "A Midsummer Night's Dream",
-          description: "a play by William Shakespeare",
-          tag: "comedy"
-        },
-        {
-          id: 5,
-          title: "Twelfth Night",
-          description: "a play by William Shakespeare",
-          tag: "comedy"
-        }
-      ]
+      books: []
     };
   },
   components: {
@@ -83,7 +47,21 @@ export default {
       } else if (direction === -1 && !this.atHeadOfList) {
         this.currentOffset += this.paginationFactor;
       }
+    },
+    getBooks() {
+      const path = "http://localhost:5000/";
+      axios
+        .get(path)
+        .then(res => {
+          this.books = res.data.books;
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
+  },
+  created() {
+    this.getBooks();
   }
 };
 </script>

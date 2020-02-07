@@ -17,7 +17,7 @@ $white: #ffffff;
   src: local("NanumMyeongjo Bold"), local("NanumMyeongjo-Bold"),
     url(../fonts/NanumMyeongjo-Bold.ttf) format("truetype");
   font-style: normal;
-  font-weight: normal;
+  font-weight: bold;
 }
 
 @font-face {
@@ -25,15 +25,38 @@ $white: #ffffff;
   src: local("NanumMyeongjo ExtraBold"), local("NanumMyeongjo-ExtraBold"),
     url(../fonts/NanumMyeongjo-ExtraBold.ttf) format("truetype");
   font-style: normal;
-  font-weight: normal;
+  font-weight: bolder;
 }
 
 @font-face {
-  font-family: "Icons";
-  font-style: normal;
+  font-family: "IconSolid";
   src: url(../assets/fa-solid-900.eot); /* For IE6-8 */
   src: url(../assets/fa-solid-900.woff2) format("woff2"),
     url(../assets/fa-solid-900.woff) format("woff"),
     url(../assets/fa-solid-900.svg) format("svg"),
     url(../assets/fa-solid-900.ttf) format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "IconRegular";
+  src: url(../assets/fa-regular-400.eot); /* For IE6-8 */
+  src: url(../assets/fa-regular-400.woff2) format("woff2"),
+    url(../assets/fa-regular-400.woff) format("woff"),
+    url(../assets/fa-regular-400.svg) format("svg"),
+    url(../assets/fa-regular-400.ttf) format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "IconBrand";
+  src: url(../assets/fa-brands-400.eot); /* For IE6-8 */
+  src: url(../assets/fa-brands-400.woff2) format("woff2"),
+    url(../assets/fa-brands-400.woff) format("woff"),
+    url(../assets/fa-brands-400.svg) format("svg"),
+    url(../assets/fa-brands-400.ttf) format("truetype");
+  font-style: normal;
+  font-weight: normal;
 }

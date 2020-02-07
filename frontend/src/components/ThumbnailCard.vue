@@ -1,10 +1,16 @@
 <template>
   <div class="thumbnail-wrapper">
     <div class="thumbnail">
-      <img class="thumbnail-img" src="../images/no-image.png" alt />
+      <router-link to="/detail" tag="div" class="detail-link">
+        <img class="thumbnail-img" src="../images/no-image.png" alt />
+      </router-link>
       <div class="thumbnail-footer">
-        <p class="title">{{ book.title }}</p>
-        <p class="caption">{{ book.description }}</p>
+        <router-link to="/detail" tag="div" class="detail-link">
+          <p class="title">{{ book.title }}</p>
+        </router-link>
+        <router-link to="/detail" tag="div" class="detail-link">
+          <p class="caption">{{ book.description }}</p>
+        </router-link>
         <div class="tags">
           <p class="tag">{{ book.tag }}</p>
         </div>
@@ -14,7 +20,9 @@
 </template>
 
 <script>
+import router from "../routes/routes";
 export default {
+  router,
   props: {
     book: Object
   }
@@ -40,7 +48,8 @@ export default {
 .thumbnail .thumbnail-img {
   border-style: none;
   width: 180px;
-  height: 270px;
+  // height: 270px;
+  height: auto;
   margin: 0;
   transition: opacity 150ms linear;
   user-select: none;
@@ -90,6 +99,14 @@ export default {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+.detail-link {
+  margin: 0;
+  padding: 0;
+  width: fit-content;
+}
+.detail-link:hover {
+  text-decoration: underline;
+}
 
 .thumbnail .thumbnail-footer .tags {
   height: 1.3em;
@@ -111,5 +128,10 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.thumbnail .thumbnail-footer .tag:hover {
+  background-color: $gray;
+  color: $white;
 }
 </style>

@@ -1,35 +1,72 @@
 <template>
   <div class="container">
     <div class="join-form-wrapper">
-      <form class="join-form">
+      <form @submit.prevent="onSubmitForm" class="join-form">
         <span class="form-title">Join us!</span>
-
-        <span class="form-input-title">이메일</span>
+        <div class="form-input-title-wrapper">
+          <span class="form-input-title">이메일</span>
+          <span class="form-danger">에러메세지</span>
+        </div>
         <div class="form-input-wrapper">
-          <input type="text" class="form-input" placeholder="이메일을 입력해주세요" />
+          <input
+            type="email"
+            name="email"
+            v-model="formData.email"
+            class="form-input"
+            maxlength="30"
+            placeholder="이메일을 입력해주세요"
+          />
           <span class="form-input-focus"></span>
         </div>
 
-        <span class="form-input-title">닉네임</span>
+        <div class="form-input-title-wrapper">
+          <span class="form-input-title">닉네임</span>
+          <span class="form-danger">에러메세지</span>
+        </div>
         <div class="form-input-wrapper">
-          <input type="text" class="form-input" placeholder="닉네임을 입력해주세요" />
+          <input
+            type="text"
+            name="username"
+            v-model="formData.username"
+            class="form-input"
+            maxlength="20"
+            placeholder="닉네임을 입력해주세요"
+          />
           <span class="form-input-focus"></span>
         </div>
 
-        <span class="form-input-title">패스워드</span>
+        <div class="form-input-title-wrapper">
+          <span class="form-input-title">패스워드</span>
+          <span class="form-danger">에러메세지</span>
+        </div>
         <div class="form-input-wrapper">
-          <input type="password" class="form-input" placeholder="패스워드를 입력해주세요" />
+          <input
+            type="password"
+            name="password"
+            v-model="formData.password"
+            class="form-input"
+            placeholder="패스워드를 입력해주세요"
+          />
           <span class="form-input-focus"></span>
         </div>
 
-        <span class="form-input-title">패스워드 확인</span>
+        <div class="form-input-title-wrapper">
+          <span class="form-input-title">패스워드 확인</span>
+          <span class="form-danger">에러메세지</span>
+        </div>
         <div class="form-input-wrapper">
-          <input type="password" class="form-input" placeholder="패스워드를 한 번 더 입력해주세요" />
+          <input
+            type="password"
+            name="password-check"
+            v-model="formData.passwordCheck"
+            class="form-input"
+            placeholder="패스워드를 한 번 더 입력해주세요"
+          />
           <span class="form-input-focus"></span>
         </div>
 
         <div class="form-btn-wrapper">
-          <button class="form-btn">가입하기</button>
+          <button type="submit" class="form-btn">가입하기</button>
         </div>
 
         <router-link to="/login" tag="div" class="form-btn-wrapper">
@@ -42,8 +79,42 @@
 
 <script>
 import router from "../routes/routes";
+import axios from "axios";
+
 export default {
-  router
+  router,
+  data() {
+    return {
+      formData: {
+        email: "",
+        username: "",
+        password: ""
+      }
+    };
+  },
+  methods: {
+    checkPassword() {},
+    checkUsername() {},
+    onSubmitForm(e) {
+      e.preventDefault();
+      this.checkPassword();
+      this.checkUsername();
+
+      const path = "http://localhost:5000/join";
+      const payload = {
+        email: this.formData.email,
+        username: this.formData.username,
+        password: this.formData.password
+      };
+
+      axios
+        .post(path, payload)
+        .then(res => {})
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }
 };
 </script>
 
@@ -67,6 +138,8 @@ export default {
 
 .join-form {
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-title {
@@ -160,6 +233,8 @@ export default {
   width: 100%;
   height: 50px;
   background-color: $gray;
+  outline: none;
+  border-radius: 8px;
 
   box-shadow: 0 10px 30px 0px rgba(0, 0, 0, 0.1);
   transition: all 0.4s;
@@ -189,5 +264,12 @@ button {
   width: 100%;
   height: 50px;
   background: transparent;
+  outline: none;
+}
+
+.form-danger {
+  font-family: "Noto Serif KR", serif;
+  font-size: 12px;
+  color: red;
 }
 </style>

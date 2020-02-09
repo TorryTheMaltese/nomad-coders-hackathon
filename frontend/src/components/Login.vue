@@ -30,8 +30,11 @@
 
 <script>
 import router from "../routes/routes";
+import axios from "axios";
+
 export default {
-  router
+  router,
+  methods: {}
 };
 </script>
 
@@ -148,6 +151,8 @@ export default {
   width: 100%;
   height: 50px;
   background-color: $gray;
+  outline: none;
+  border-radius: 8px;
 
   box-shadow: 0 10px 30px 0px rgba(0, 0, 0, 0.1);
   transition: all 0.4s;
@@ -177,5 +182,6 @@ button {
   width: 100%;
   height: 50px;
   background: transparent;
+  outline: none;
 }
 </style>

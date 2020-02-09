@@ -1,6 +1,6 @@
 from . import app
 from flask import render_template, request, redirect, url_for, jsonify
-from .models import BOOKS
+from .models import BOOKS, USERS
 import uuid
 
 
@@ -45,4 +45,20 @@ def single_book(book_id):
     if request.method == 'DELETE':
         remove_book(book_id)
         response_object['message'] = 'Book removed!'
+    return jsonify(response_object)
+
+
+@app.route('/join', methods=['GET','POST'])
+def add_user():
+    response_object = {'status': 'success'}
+    if request.method == 'POST':
+        post_data = request.get_json()
+        USERS.append({
+            'id': uuid.uuid4().hex,
+            'email': post_data.get('email'),
+            'password': post_data.get('password'),
+        })
+        response_object['message'] = 'welcome!'
+    else:
+        response_object['users'] = USERS
     return jsonify(response_object)

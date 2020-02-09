@@ -38,3 +38,11 @@ BOOKS = [
           "tag": "comedy"
         }
       ]
+
+USERS = [
+        {
+          "id": uuid.uuid4().hex,
+          "email": "test",
+          "password": "test",
+        },
+]

@@ -18,6 +18,9 @@ export default {
     go: function(url) {
       location.href = "/";
     }
+  },
+  created() {
+    window.setTimeout(this.go, 2000);
   }
 };
 </script>

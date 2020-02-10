@@ -112,17 +112,6 @@ export default {
     checkUsername() {},
     checkEmail() {},
     checkRequired() {
-      // try {
-      //   if (
-      //     !this.formData.email ||
-      //     !this.formData.username ||
-      //     !this.formData.password ||
-      //     !this.formData.passwordCheck
-      //   ) {
-      //     throw "빈칸을 채워주세요";
-      //   }
-      // } catch {}
-
       for (const item in this.formData) {
         try {
           if (!this.formData[item]) {
@@ -134,6 +123,11 @@ export default {
       }
     },
     validate() {
+      this.errors.email = "";
+      this.errors.username = "";
+      this.errors.password = "";
+      this.errors.passwordCheck = "";
+
       this.checkRequired();
       this.checkEmail();
       this.checkUsername();
@@ -143,19 +137,27 @@ export default {
       e.preventDefault();
 
       this.validate();
-
-      const path = "http://localhost:5000/join";
-      const payload = {
-        email: this.formData.email,
-        username: this.formData.username,
-        password: this.formData.password
-      };
-      axios
-        .post(path, payload)
-        .then(res => {})
-        .catch(error => {
-          console.error(error);
-        });
+      if (
+        !this.errors.email &&
+        !this.errors.username &&
+        !this.errors.password &&
+        !this.errors.passwordCheck
+      ) {
+        const path = "http://localhost:5000/join";
+        const payload = {
+          email: this.formData.email,
+          username: this.formData.username,
+          password: this.formData.password
+        };
+        axios
+          .post(path, payload)
+          .then(res => {})
+          .catch(error => {
+            console.error(error);
+          });
+        // alert("Welcome !");
+        router.push({ name: "welcome" });
+      }
     }
   }
 };

@@ -14,6 +14,7 @@ export default new Router({
   routes: [
     {
       path: "/welcome",
+      name: "welcome",
       component: PreView
     },
     {

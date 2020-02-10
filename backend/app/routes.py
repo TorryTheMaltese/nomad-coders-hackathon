@@ -53,7 +53,6 @@ def add_user():
     response_object = {'status': 'success'}
     if request.method == 'POST':
         post_data = request.get_json()
-        print(post_data)
         user = models.USERS(user_email=post_data.get("email"),
                             user_name=post_data.get("username"),
                             user_password=post_data.get("password"))
@@ -64,5 +63,5 @@ def add_user():
         except Exception as e:
             return jsonify(e)
     else:
-        response_object['users'] = models.USERS
+        response_object = {"status": "failed"}
     return jsonify(response_object)

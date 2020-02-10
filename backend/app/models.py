@@ -1,8 +1,11 @@
 import uuid
-import json
-from datetime import datetime
 from app import db
-from sqlalchemy.sql import func
+from datetime import datetime
+from pytz import timezone, utc
+
+KST = timezone("Asia/Seoul")
+now = datetime.utcnow()
+
 
 BOOKS = [
         {
@@ -45,13 +48,23 @@ BOOKS = [
 
 
 class USERS(db.Model):
-    __table_name__ = "tbl_user"
+    __tablename__ = "tbl_user"
     __table_args__ = {"mysql_collate": "utf8_general_ci"}
 
     id = db.Column(db.Integer, primary_key=True)
     user_email = db.Column(db.String(120), index=True, unique=True)
     user_name = db.Column(db.String(64))
     user_password = db.Column(db.String(94))
-    user_registered = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    user_last_seen = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_registered = db.Column(db.DateTime, nullable=False, default=utc.localize(now).astimezone(KST))
+    user_last_seen = db.Column(db.DateTime, nullable=False, default=utc.localize(now).astimezone(KST))
 
+    def __init__(self, **kwargs):
+        self.user_email = kwargs.get('user_email')
+        self.user_name = kwargs.get('user_name')
+        self.user_password = kwargs.get('user_password')
+
+    def __repr__(self):
+        return '<USER {}>'.format(self.id)
+
+    def as_dict(self):
+        return {x.name: getattr(self, x.name) for x in self.__table__.columns}

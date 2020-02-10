@@ -1,8 +1,7 @@
 from app import app, models
 from flask import render_template, request, redirect, url_for, jsonify
 import uuid
-import json
-from datetime import datetime
+import dbHelper
 
 
 def remove_book(book_id):
@@ -54,17 +53,16 @@ def add_user():
     response_object = {'status': 'success'}
     if request.method == 'POST':
         post_data = request.get_json()
-        # print(post_data)
-        # {'email': 'test@test.test', 'username': 'test', 'password': 'test'}
-        print()
-        models.USERS.append({
-            'id': uuid.uuid4().hex,
-            'user_email': post_data.get('email'),
-            'user_name': post_data.get('username'),
-            'user_password': post_data.get('password'),
-            'user_registered': datetime.now()
-        })
-        response_object['message'] = 'welcome!'
+        print(post_data)
+        user = models.USERS(user_email=post_data.get("email"),
+                            user_name=post_data.get("username"),
+                            user_password=post_data.get("password"))
+
+        try:
+            with dbHelper.get_session() as session:
+                session.add(user)
+        except Exception as e:
+            return jsonify(e)
     else:
         response_object['users'] = models.USERS
     return jsonify(response_object)

@@ -5,7 +5,7 @@
         <span class="form-title">Join us!</span>
         <div class="form-input-title-wrapper">
           <span class="form-input-title">이메일</span>
-          <span class="form-danger">에러메세지</span>
+          <span class="form-danger" v-if="errors.email">{{ errors.email }}</span>
         </div>
         <div class="form-input-wrapper">
           <input
@@ -21,7 +21,7 @@
 
         <div class="form-input-title-wrapper">
           <span class="form-input-title">닉네임</span>
-          <span class="form-danger">에러메세지</span>
+          <span class="form-danger" v-if="errors.username">{{ errors.username }}</span>
         </div>
         <div class="form-input-wrapper">
           <input
@@ -37,7 +37,7 @@
 
         <div class="form-input-title-wrapper">
           <span class="form-input-title">패스워드</span>
-          <span class="form-danger">에러메세지</span>
+          <span class="form-danger" v-if="errors.password">{{ errors.password }}</span>
         </div>
         <div class="form-input-wrapper">
           <input
@@ -52,7 +52,7 @@
 
         <div class="form-input-title-wrapper">
           <span class="form-input-title">패스워드 확인</span>
-          <span class="form-danger">에러메세지</span>
+          <span class="form-danger" v-if="errors.passwordCheck">{{ errors.passwordCheck }}</span>
         </div>
         <div class="form-input-wrapper">
           <input
@@ -88,17 +88,61 @@ export default {
       formData: {
         email: "",
         username: "",
-        password: ""
+        password: "",
+        passwordCheck: ""
+      },
+      errors: {
+        email: "",
+        username: "",
+        password: "",
+        passwordCheck: ""
       }
     };
   },
   methods: {
-    checkPassword() {},
+    checkPassword() {
+      try {
+        if (this.formData.password !== this.formData.passwordCheck) {
+          throw "패스워드를 확인해주세요";
+        }
+      } catch (error) {
+        this.errors.passwordCheck = error;
+      }
+    },
     checkUsername() {},
+    checkEmail() {},
+    checkRequired() {
+      // try {
+      //   if (
+      //     !this.formData.email ||
+      //     !this.formData.username ||
+      //     !this.formData.password ||
+      //     !this.formData.passwordCheck
+      //   ) {
+      //     throw "빈칸을 채워주세요";
+      //   }
+      // } catch {}
+
+      for (const item in this.formData) {
+        try {
+          if (!this.formData[item]) {
+            throw "빈칸을 채워주세요";
+          }
+        } catch (error) {
+          this.errors[item] = error;
+        }
+      }
+    },
+    validate() {
+      this.checkRequired();
+      this.checkEmail();
+      this.checkUsername();
+      this.checkPassword();
+    },
     onSubmitForm(e) {
       e.preventDefault();
-      this.checkPassword();
-      this.checkUsername();
+
+      this.validate();
 
       const path = "http://localhost:5000/join";
       const payload = {
@@ -106,7 +150,6 @@ export default {
         username: this.formData.username,
         password: this.formData.password
       };
-
       axios
         .post(path, payload)
         .then(res => {})

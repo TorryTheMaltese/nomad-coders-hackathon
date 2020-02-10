@@ -13,5 +13,5 @@ migrate = Migrate(app, db)
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 
-from . import routes
-from . import errors
+from app import routes
+from app import errors

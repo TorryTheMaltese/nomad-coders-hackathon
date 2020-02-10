@@ -1,13 +1,14 @@
-from . import app
+from app import app, models
 from flask import render_template, request, redirect, url_for, jsonify
-from .models import BOOKS, USERS
 import uuid
+import json
+from datetime import datetime
 
 
 def remove_book(book_id):
-    for book in BOOKS:
+    for book in models.BOOKS:
         if book['id'] == book_id:
-            BOOKS.remove(book)
+            models.BOOKS.remove(book)
             return True
     return False
 
@@ -17,7 +18,7 @@ def all_books():
     response_object = {'status': 'success'}
     if request.method == 'POST':
         post_data = request.get_json()
-        BOOKS.append({
+        models.BOOKS.append({
             'id': uuid.uuid4().hex,
             'title': post_data.get('title'),
             'description': post_data.get('description'),
@@ -25,7 +26,7 @@ def all_books():
         })
         response_object['message'] = 'Book added!'
     else:
-        response_object['books'] = BOOKS
+        response_object['books'] = models.BOOKS
     return jsonify(response_object)
 
 
@@ -35,7 +36,7 @@ def single_book(book_id):
     if request.method == 'PUT':
         post_data = request.get_json()
         remove_book(book_id)
-        BOOKS.append({
+        models.BOOKS.append({
             'id': uuid.uuid4().hex,
             'title': post_data.get('title'),
             'description': post_data.get('description'),
@@ -48,17 +49,22 @@ def single_book(book_id):
     return jsonify(response_object)
 
 
-@app.route('/join', methods=['GET','POST'])
+@app.route('/join', methods=['GET', 'POST'])
 def add_user():
     response_object = {'status': 'success'}
     if request.method == 'POST':
         post_data = request.get_json()
-        USERS.append({
+        # print(post_data)
+        # {'email': 'test@test.test', 'username': 'test', 'password': 'test'}
+        print()
+        models.USERS.append({
             'id': uuid.uuid4().hex,
-            'email': post_data.get('email'),
-            'password': post_data.get('password'),
+            'user_email': post_data.get('email'),
+            'user_name': post_data.get('username'),
+            'user_password': post_data.get('password'),
+            'user_registered': datetime.now()
         })
         response_object['message'] = 'welcome!'
     else:
-        response_object['users'] = USERS
+        response_object['users'] = models.USERS
     return jsonify(response_object)

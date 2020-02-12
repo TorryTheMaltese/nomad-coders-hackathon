@@ -12,6 +12,7 @@
             type="email"
             name="email"
             v-model="formData.email"
+            @keydown.enter.prevent="nextInput()"
             class="form-input"
             maxlength="30"
             placeholder="이메일을 입력해주세요"
@@ -27,9 +28,11 @@
           <input
             type="text"
             name="username"
+            @keydown.enter.prevent="nextInput()"
+            @keyup="limitNameInput()"
             v-model="formData.username"
             class="form-input"
-            maxlength="20"
+            maxlength="15"
             placeholder="닉네임을 입력해주세요"
           />
           <span class="form-input-focus"></span>
@@ -43,6 +46,8 @@
           <input
             type="password"
             name="password"
+            @keydown.enter.prevent="nextInput()"
+            @keyup="checkPassword()"
             v-model="formData.password"
             class="form-input"
             placeholder="패스워드를 입력해주세요"
@@ -59,6 +64,7 @@
             type="password"
             name="password-check"
             v-model="formData.passwordCheck"
+            @blur="checkPasswordCheck()"
             class="form-input"
             placeholder="패스워드를 한 번 더 입력해주세요"
           />
@@ -96,21 +102,47 @@ export default {
         username: "",
         password: "",
         passwordCheck: ""
-      }
+      },
+      len: 0
     };
   },
   methods: {
+    nextInput() {
+      event.target.parentElement.nextElementSibling.nextElementSibling.children[0].focus();
+    },
+    limitNameInput() {
+      const pattern_username = /^[a-zA-Z가-힣0-9]{2,15}$/;
+      try {
+        if (!pattern_username.test(event.target.value))
+          throw "한글, 영어, 숫자로 이루어진 2~15글자로 입력해주세요";
+        else this.errors.username = "";
+      } catch (error) {
+        this.errors.username = error;
+      }
+    },
     checkPassword() {
+      const pattern_password = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*?&]{8,}$/;
+
+      try {
+        if (!pattern_password.test(event.target.value))
+          throw "영어, 숫자를 혼용해 8자 이상으로 입력해주세요";
+        else this.errors.password = "";
+      } catch (error) {
+        this.errors.password = error;
+      }
+    },
+    checkPasswordCheck() {
       try {
         if (this.formData.password !== this.formData.passwordCheck) {
           throw "패스워드를 확인해주세요";
+        } else {
+          this.errors.passwordCheck = "";
         }
       } catch (error) {
         this.errors.passwordCheck = error;
       }
     },
     checkUsername() {},
-    checkEmail() {},
     checkRequired() {
       for (const item in this.formData) {
         try {
@@ -129,7 +161,6 @@ export default {
       this.errors.passwordCheck = "";
 
       this.checkRequired();
-      this.checkEmail();
       this.checkUsername();
       this.checkPassword();
     },
@@ -151,12 +182,16 @@ export default {
         };
         axios
           .post(path, payload)
-          .then(res => {})
+          .then(res => {
+            if (res.data.error) {
+              this.errors.email = res.data.error;
+            } else {
+              router.push({ name: "welcome" });
+            }
+          })
           .catch(error => {
             console.error(error);
           });
-        // alert("Welcome !");
-        router.push({ name: "welcome" });
       }
     }
   }

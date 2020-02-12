@@ -1,18 +1,32 @@
 <template>
   <div class="container">
     <div class="login-form-wrapper">
-      <form class="login-form">
+      <form class="login-form" @submit.prevent="onSubmitForm(email, password)">
         <span class="form-title">Welcome</span>
 
         <span class="form-input-title">이메일</span>
         <div class="form-input-wrapper">
-          <input type="text" class="form-input" placeholder="이메일을 입력해주세요" />
+          <input
+            type="email"
+            name="email"
+            v-model="email"
+            @keydown.enter.prevent="nextInput()"
+            class="form-input"
+            maxlength="30"
+            placeholder="이메일을 입력해주세요"
+          />
           <span class="form-input-focus"></span>
         </div>
 
         <span class="form-input-title">패스워드</span>
         <div class="form-input-wrapper">
-          <input type="password" class="form-input" placeholder="패스워드를 입력해주세요" />
+          <input
+            type="password"
+            name="password"
+            v-model="password"
+            class="form-input"
+            placeholder="패스워드를 입력해주세요"
+          />
           <span class="form-input-focus"></span>
         </div>
 
@@ -34,7 +48,33 @@ import axios from "axios";
 
 export default {
   router,
-  methods: {}
+  data() {
+    return {
+      email: "",
+      password: "",
+      msg: ""
+    };
+  },
+  methods: {
+    nextInput() {
+      event.target.parentElement.nextElementSibling.nextElementSibling.children[0].focus();
+    },
+    formCheck() {
+      console.log("form check");
+    },
+    onSubmitForm(email, password) {
+      this.formCheck();
+
+      this.$store
+        .dispatch("LOGIN", { email, password })
+        .then(() => this.redirect())
+        .catch(({ message }) => (this.msg = message));
+    },
+    redirect() {
+      console.log("Login Success");
+      router.push({ name: "main" });
+    }
+  }
 };
 </script>
 

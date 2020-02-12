@@ -1,32 +1,34 @@
 <template>
-  <div ref="searchHeader" class="search-header">
-    <div class="search-wrapper">
-      <div class="search-input-widget">
-        <form class="search-form">
-          <div class="search-icon fa-search"></div>
-          <input type="search" placeholder="검색어를 입력해주세요." class="search-input" />
-          <input type="submit" style="display:none" />
-        </form>
+  <transition name="fade" appear>
+    <div ref="searchHeader" class="search-header">
+      <div class="search-wrapper">
+        <div class="search-input-widget">
+          <form class="search-form">
+            <div class="search-icon fa-search"></div>
+            <input type="search" placeholder="검색어를 입력해주세요." class="search-input" />
+            <input type="submit" style="display:none" />
+          </form>
+        </div>
+        <div class="search-btn-wrapper">
+          <!-- <router-link to="/" @click="onClickClose()" tag="button" class="search-btn fa-times"></router-link> -->
+          <button @click.self="$emit('close')" class="search-btn fa-times"></button>
+        </div>
       </div>
-      <div class="search-btn-wrapper">
-        <!-- <router-link to="/" @click="onClickClose()" tag="button" class="search-btn fa-times"></router-link> -->
-        <button @click.self="$emit('close')" class="search-btn fa-times"></button>
-      </div>
-    </div>
-    <div class="auto-complete">
-      <div class="result-wrapper">
-        <div class="result-container">
-          <dl class="result-list">
-            <dt>인기 검색어</dt>
-            <dd>
-              <div class="result-item-icon fa-search"></div>
-              <span class="result-item">셰익스피어</span>
-            </dd>
-          </dl>
+      <div class="auto-complete">
+        <div class="result-wrapper">
+          <div class="result-container">
+            <dl class="result-list">
+              <dt>인기 검색어</dt>
+              <dd>
+                <div class="result-item-icon fa-search"></div>
+                <span class="result-item">셰익스피어</span>
+              </dd>
+            </dl>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -45,6 +47,15 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Noto+Serif+KR&display=swap");
 
 /*[search header]***********************************************************************************************************/
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.1s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0.3;
+}
 
 .search-header {
   position: fixed;

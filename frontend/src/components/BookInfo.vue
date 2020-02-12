@@ -1,12 +1,12 @@
 <template>
   <div class="info-card">
     <nav>
-      <div class="left-nav">
+      <router-link tag="div" to="/" class="left-nav">
         <div class="icon-wrapper-arrow">
           <i class="fas fa-chevron-left"></i>
         </div>
         <span>Back to Homepage</span>
-      </div>
+      </router-link>
       <div class="icon-wrapper-heart">
         <i class="far fa-heart"></i>
       </div>

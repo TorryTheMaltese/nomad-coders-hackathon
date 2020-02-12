@@ -5,8 +5,15 @@ import PreView from "../views/PreView";
 import LoginView from "../views/LoginView";
 import JoinView from "../views/JoinView";
 import BookDetailView from "../views/BookDetailView";
+import UserInfoView from "../views/UserInfoView";
 
 Vue.use(Router);
+
+const requireAuth = () => (from, to, next) => {
+  const isAuthenticated = false;
+  if (isAuthenticated) return next();
+  next("/login?returnPath=me");
+};
 
 export default new Router({
   // mode: "history",
@@ -19,19 +26,29 @@ export default new Router({
     },
     {
       path: "/",
+      name: "main",
       component: MainView
     },
     {
       path: "/login",
+      name: "login",
       component: LoginView
     },
     {
       path: "/join",
+      name: "join",
       component: JoinView
     },
     {
       path: "/detail",
+      name: "detail",
       component: BookDetailView
+    },
+    {
+      path: "/user",
+      name: "user",
+      component: UserInfoView,
+      beforeEnter: requireAuth()
     }
   ]
 });

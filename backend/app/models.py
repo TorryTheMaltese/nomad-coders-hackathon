@@ -1,10 +1,6 @@
 import uuid
 from app import db
-import datetime
-from pytz import timezone, utc
 from sqlalchemy.sql import func
-
-KST = timezone("Asia/Seoul")
 
 
 BOOKS = [
@@ -55,8 +51,8 @@ class USERS(db.Model):
     user_email = db.Column(db.String(120), index=True, unique=True)
     user_name = db.Column(db.String(64))
     user_password = db.Column(db.String(94))
-    user_registered = db.Column(db.DateTime(timezone=True), nullable=False, default=func.now())
-    user_last_seen = db.Column(db.DateTime(timezone=True), nullable=False, default=func.now())
+    user_registered = db.Column(db.DateTime, nullable=False, default=func.now())
+    user_last_seen = db.Column(db.DateTime, nullable=False, default=func.now())
 
     def __init__(self, **kwargs):
         self.user_email = kwargs.get('user_email')

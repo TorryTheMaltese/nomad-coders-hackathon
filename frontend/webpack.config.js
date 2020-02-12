@@ -34,7 +34,8 @@ module.exports = {
             options: {
               resources: [
                 path.resolve(__dirname, "src/scss/_variables.scss"),
-                path.resolve(__dirname, "src/scss/_reset.scss")
+                path.resolve(__dirname, "src/scss/_reset.scss"),
+                path.resolve(__dirname, "src/scss/_scroll.scss")
               ]
             }
           }

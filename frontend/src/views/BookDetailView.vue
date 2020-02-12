@@ -1,7 +1,9 @@
 <template>
   <div style="margin: 0px;height:100%;">
     <header-nav></header-nav>
-    <book-info></book-info>
+    <transition name="fade" appear>
+      <book-info></book-info>
+    </transition>
   </div>
 </template>
 
@@ -23,4 +25,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0.3;
+}
 </style>

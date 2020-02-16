@@ -47,7 +47,7 @@
             type="password"
             name="password"
             @keydown.enter.prevent="nextInput()"
-            @keyup="checkPassword()"
+            @keyup="limitPassword()"
             v-model="formData.password"
             class="form-input"
             placeholder="패스워드를 입력해주세요"
@@ -120,12 +120,23 @@ export default {
         this.errors.username = error;
       }
     },
-    checkPassword() {
+    limitPassword() {
       const pattern_password = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*?&]{8,}$/;
 
       try {
         if (!pattern_password.test(event.target.value))
-          throw "영어, 숫자를 혼용해 8자 이상으로 입력해주세요";
+          throw "영어, 숫자를 혼용해 8자 이상으로 입력해주세요 (!@$%*& 사용가능)";
+        else this.errors.password = "";
+      } catch (error) {
+        this.errors.password = error;
+      }
+    },
+    checkPassword() {
+      const pattern_password = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*?&]{8,}$/;
+
+      try {
+        if (!pattern_password.test(this.formData.password))
+          throw "영어, 숫자를 혼용해 8자 이상으로 입력해주세요 (!@$%*& 사용가능)";
         else this.errors.password = "";
       } catch (error) {
         this.errors.password = error;
@@ -163,6 +174,7 @@ export default {
       this.checkRequired();
       this.checkUsername();
       this.checkPassword();
+      this.checkPasswordCheck();
     },
     onSubmitForm(e) {
       e.preventDefault();
@@ -186,7 +198,7 @@ export default {
             if (res.data.error) {
               this.errors.email = res.data.error;
             } else {
-              router.push({ name: "welcome" });
+              router.push({ name: "login" });
             }
           })
           .catch(error => {

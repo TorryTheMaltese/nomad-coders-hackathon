@@ -10,9 +10,13 @@ import UserInfoView from "../views/UserInfoView";
 Vue.use(Router);
 
 const requireAuth = () => (from, to, next) => {
-  const isAuthenticated = false;
+  let isAuthenticated = false;
+
+  if (localStorage.getItem("accessToken")) {
+    isAuthenticated = true;
+  }
   if (isAuthenticated) return next();
-  next("/login?returnPath=me");
+  next("/");
 };
 
 export default new Router({

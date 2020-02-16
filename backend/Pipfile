@@ -13,6 +13,7 @@ flask-migrate = "*"
 pymysql = "*"
 flask-mysqldb = "*"
 pyjwt = "*"
+pytz = "*"
 
 [requires]
 python_version = "3.7"

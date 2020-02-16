@@ -30,3 +30,6 @@ http://jeonghwan-kim.github.io/2018/03/26/vue-authentication.html
 
 flask에 인증(Auth) 붙이는 방법
 https://zzsza.github.io/development/2019/03/04/auth-with-flask/
+
+파이썬의 시간대에 대해 알아보기(datetime.timezone)
+https://www.theteams.kr/teams/371/post/69185

@@ -13,10 +13,12 @@ export default new Vuex.Store({
   mutations: {
     LOGIN(state, { accessToken }) {
       state.accessToken = accessToken;
+      localStorage.setItem("accessToken", state.accessToken);
       console.log("state.accessToken :", state.accessToken);
     },
     LOGOUT(state) {
       state.accessToken = null;
+      delete localStorage.accessToken;
       console.log("state.accessToken :", state.accessToken);
     }
   },

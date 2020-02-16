@@ -3,9 +3,14 @@ from flask import render_template, request, redirect, url_for, jsonify
 from config import Config
 from werkzeug.security import safe_str_cmp
 import datetime
+from pytz import timezone, utc
 import jwt
 import uuid
 import dbHelper
+
+now = datetime.datetime.utcnow()
+KST = timezone("Asia/Seoul")
+real_now = utc.localize(now).astimezone(KST)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -59,6 +64,39 @@ def identity(payload):
     return models.USERS.query.filter_by(user_id=user_id).first()
 
 
+def give_access_token(user_id, user_name):
+    exp = datetime.datetime.utcnow() + datetime.timedelta(seconds=60 * 60 * 24)
+    real_exp = utc.localize(exp).astimezone(KST)
+
+    payload = {
+        "userId": user_id,
+        "username": user_name,
+        "exp": real_exp
+    }
+
+    access_token = jwt.encode(payload, Config.SECRET_KEY, "HS256")
+
+    return access_token
+
+
+def give_refresh_token(user):
+    payload = {
+        "userId": user.id
+    }
+
+    refresh_token = jwt.encode(payload, Config.SECRET_KEY, "HS256")
+    token = models.TOKEN(token_refresh=refresh_token)
+    token.user = user
+
+    try:
+        with dbHelper.get_session() as session:
+            session.add(token)
+    except Exception as e:
+        return jsonify(e)
+
+    return refresh_token
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     response_object = {"status": "success"}
@@ -67,15 +105,10 @@ def login():
         user_exist = authenticate(post_data.get("email"), post_data.get("password"))
 
         if user_exist:
-            payload = {
-                "userId": user_exist.id,
-                "username": user_exist.user_name,
-                "exp": datetime.datetime.utcnow()+datetime.timedelta(seconds=60*60*24)
-            }
+            give_refresh_token(user_exist)
 
-            access_token = jwt.encode(payload, Config.SECRET_KEY, "HS256")
             return jsonify({
-                "accessToken": access_token.decode("UTF-8")
+                "accessToken": give_access_token(user_exist.id, user_exist.user_name).decode("UTF-8")
             })
         else:
             return "", 401

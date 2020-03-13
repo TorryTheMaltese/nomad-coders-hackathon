@@ -12,6 +12,9 @@ module.exports = {
       "@": path.resolve(__dirname, "src/")
     }
   },
+  devServer: {
+    historyApiFallback: true
+  },
   entry: {
     //app: 'src/main.js',
     app: path.join(__dirname, "src/main.js")

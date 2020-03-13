@@ -59,6 +59,7 @@ class USERS(db.Model):
         self.user_email = kwargs.get('user_email')
         self.user_name = kwargs.get('user_name')
         self.user_password = kwargs.get('user_password')
+        self.user_last_seen = kwargs.get('user_last_seen')
 
     def __repr__(self):
         return '<USER {}>'.format(self.id)

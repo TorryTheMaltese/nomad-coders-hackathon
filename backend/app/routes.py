@@ -2,6 +2,7 @@ from app import app, models
 from flask import render_template, request, redirect, url_for, jsonify
 from config import Config
 from werkzeug.security import safe_str_cmp
+from functools import wraps
 import datetime
 from pytz import timezone, utc
 import jwt
@@ -43,6 +44,9 @@ def join():
             user = models.USERS(user_email=post_data.get("email"),
                                 user_name=post_data.get("username"),
                                 user_password=post_data.get("password"))
+
+            give_refresh_token(user)
+
             try:
                 with dbHelper.get_session() as session:
                     session.add(user)
@@ -65,7 +69,8 @@ def identity(payload):
 
 
 def give_access_token(user_id, user_name):
-    exp = datetime.datetime.utcnow() + datetime.timedelta(seconds=60 * 60 * 24)
+    exp = datetime.datetime.utcnow() + datetime.timedelta(seconds=60*60*24)
+    # exp = datetime.datetime.utcnow() + datetime.timedelta(seconds=60)
     real_exp = utc.localize(exp).astimezone(KST)
 
     payload = {
@@ -105,7 +110,14 @@ def login():
         user_exist = authenticate(post_data.get("email"), post_data.get("password"))
 
         if user_exist:
-            give_refresh_token(user_exist)
+            user = models.USERS.query.filter_by(id=user_exist.id).first()
+            user.user_last_seen = real_now
+
+            try:
+                with dbHelper.get_session() as session:
+                    session.commit()
+            except Exception as e:
+                return jsonify(e)
 
             return jsonify({
                 "accessToken": give_access_token(user_exist.id, user_exist.user_name).decode("UTF-8")
@@ -114,3 +126,34 @@ def login():
             return "", 401
 
     return jsonify(response_object)
+
+
+def jwt_token_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not "Authorization" in request.headers:
+            return jsonify({
+                "msg": "token is not giving"
+            })
+
+        token = request.headers["Authorization"]
+        try:
+            decoded_token = jwt.decode(token, Config.SECRET_KEY, algorithms=["HS256"])
+            print(decoded_token)
+        except jwt.ExpiredSignatureError:
+            print("Invalid token given")
+            return jsonify({
+                "error": "Invalid token given"
+            })
+        kwargs["decoded_token"] = decoded_token
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+@app.route("/profile", methods=["GET", "POST"])
+@jwt_token_required
+def profile(**kwargs):
+    token = kwargs["decoded_token"]
+    print(token)
+    return jsonify(token)
+

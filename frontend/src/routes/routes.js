@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import axios from "axios";
 import MainView from "../views/MainView.vue";
 import PreView from "../views/PreView";
 import LoginView from "../views/LoginView";
@@ -9,18 +10,31 @@ import UserInfoView from "../views/UserInfoView";
 
 Vue.use(Router);
 
-const requireAuth = () => (from, to, next) => {
-  let isAuthenticated = false;
+const path = "http://localhost:5000/profile";
 
-  if (localStorage.getItem("accessToken")) {
-    isAuthenticated = true;
-  }
-  if (isAuthenticated) return next();
-  next("/");
+const requireAuth = () => (from, to, next) => {
+  axios
+    .get(path)
+    .then(res => {
+      // res.data: {exp: 000, userId: 0, username: "0000"}
+      // or
+      // res.data: {error: ""}
+      console.log("res.data.error :", res.data.error);
+      if (res.data.error) {
+        return next({ path: "/" });
+      } else {
+        return next();
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      alert("로그인 해주세요");
+      next({ path: "/" });
+    });
 };
 
 export default new Router({
-  // mode: "history",
+  mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
@@ -49,8 +63,8 @@ export default new Router({
       component: BookDetailView
     },
     {
-      path: "/user",
-      name: "user",
+      path: "/profile",
+      name: "profile",
       component: UserInfoView,
       beforeEnter: requireAuth()
     }

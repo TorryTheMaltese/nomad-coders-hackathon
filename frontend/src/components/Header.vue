@@ -15,9 +15,18 @@
           </router-link>
         </div>
 
-        <div class="right-menu">
-          <!-- <router-link to="/search" class="search-btn fa-search"></router-link> -->
-          <button @click="onClickSearch" to="/search" class="search-btn fa-search"></button>
+        <div class="right-menu" v-if="isAuthenticated">
+          <button @click="onClickSearch" class="search-btn fa-search"></button>
+          <router-link to="/profile" tag="a" class="right-menu-btn">
+            <span class="right-menu-btn-tag">{{username}}</span>
+            <span class="profile">
+              <span class="profile-image"></span>
+            </span>
+          </router-link>
+        </div>
+
+        <div class="right-menu" v-else>
+          <button @click="onClickSearch" class="search-btn fa-search"></button>
           <router-link to="/login" tag="a" class="right-menu-btn">
             <span class="right-menu-btn-tag">로그인 / 회원가입</span>
             <span class="profile">
@@ -35,12 +44,17 @@
 <script>
 import router from "../routes/routes.js";
 import SearchBar from "./SearchBar";
+import axios from "axios";
 
 export default {
   router,
   components: { SearchBar },
   data() {
-    return { searchComponent: false };
+    return {
+      searchComponent: false,
+      isAuthenticated: false,
+      username: ""
+    };
   },
   methods: {
     onClickSearch() {
@@ -48,6 +62,26 @@ export default {
     },
     onClickClose() {
       this.searchComponent = false;
+    }
+  },
+  mounted() {
+    if (localStorage.getItem("accessToken")) {
+      // this.isAuthenticated = true;
+      axios
+        .post("http://localhost:5000/profile")
+        .then(({ data }) => {
+          // data: {exp:0000000000, userId: 0, username: "0000"}
+          // or
+          // data: {error: ""}
+          if (!data.error) {
+            this.username = data.username;
+            this.isAuthenticated = true;
+          }
+        })
+        .catch(error => {
+          this.isAuthenticated = false;
+          console.log(error);
+        });
     }
   }
 };

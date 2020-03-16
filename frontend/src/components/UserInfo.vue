@@ -2,13 +2,14 @@
   <div class="container">
     <div class="wrapper">
       <div class="btn-wrapper">
-        <button data-hover="See Ya !" class="logout-btn">
+        <button data-hover="See Ya !" class="logout-btn" @click="onLogoutBtn">
           <div>LOGOUT</div>
         </button>
       </div>
 
       <div class="profile-wrapper">
         <img class="avatar" />
+        <!-- <p class="avatar-text">프로필 이미지 변경하기</p> -->
         <p class="profile-name">{{username}}</p>
       </div>
     </div>
@@ -25,6 +26,18 @@ export default {
     return {
       username: ""
     };
+  },
+  methods: {
+    onLogoutBtn() {
+      this.$store
+        .dispatch("LOGOUT")
+        .then(() => this.redirect())
+        .catch(({ message }) => (this.msg = message));
+    },
+    redirect() {
+      console.log("Logout");
+      router.push({ name: "main" });
+    }
   },
   created() {
     axios
@@ -130,6 +143,12 @@ button div {
   transform: scale(1);
   box-shadow: 0 37.125px 70px -12.125px rgba(0, 0, 0, 0.2);
   opacity: 0.5;
+}
+
+.avatar-text {
+  visibility: hidden;
+  font-family: "Noto Serif KR", serif;
+  font-size: 30px;
 }
 
 .profile-name {

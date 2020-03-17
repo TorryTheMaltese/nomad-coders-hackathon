@@ -13,11 +13,12 @@
         </div>
 
         <div v-if="!imgAdded" class="before-upload-contents">
-          <div class="drop-area" @drop.prevent="addImg" @dragover.prevent>
+          <div class="drop-area" @click="chooseImg" @drop.prevent="addImgByDrop" @dragover.prevent>
             <div class="icon">
               <i class="fas fa-upload"></i>
             </div>
             <span class="hint">Click or Drag the image here to upload</span>
+            <input @change="addImgByClick" type="file" id="fileBtn" style="display:none" />
           </div>
           <div class="error-area" v-if="notImgError">
             <div class="icon">
@@ -30,15 +31,10 @@
         </div>
 
         <div v-else class="after-upload-contents">
-          <div class="crop-area">
+          <div class="crop-area" draggable="false">
             <div class="crop-left">
-              <div class="img-container">
-                <img
-                  :src="imgSrc"
-                  draggable="false"
-                  class="img"
-                  style="top: 0px; left: 28px; width: 184px; height: 184px;"
-                />
+              <div class="img-container" draggable="false">
+                <img :src="imgSrc" class="img" id="img" @drag.prevent="moveImg" :style="imgStyle" />
                 <div class="img-shade shade-left" style="width: 28px; height: 184px;"></div>
                 <div class="img-shade shade-right" style="width: 28px; height: 184px;"></div>
               </div>
@@ -50,8 +46,13 @@
             </div>
 
             <div class="crop-right">
-              <div class="circle-preview">
-                <img :src="imgSrc" style="width:180px; height:180px" />
+              <div class="circle-preview" draggable="false">
+                <img
+                  :src="imgSrc"
+                  id="previewImg"
+                  draggable="false"
+                  style="width:180px; height:180px"
+                />
                 <span>Preview</span>
               </div>
             </div>
@@ -74,15 +75,31 @@ export default {
       imgAdded: false,
       notImgError: false,
       filename: "",
-      imgSrc: ""
+      imgSrc: "",
+      imgStyle: {
+        top: "0px",
+        left: "28px",
+        width: "250px",
+        height: "auto"
+      }
     };
   },
   methods: {
     ControlModal() {
       this.visible = !this.visible;
     },
-    addImg(e) {
+    chooseImg() {
+      document.getElementById("fileBtn").click();
+    },
+    addImgByClick(e) {
+      const files = e.target.files;
+      this.addImg(files);
+    },
+    addImgByDrop(e) {
       const files = e.dataTransfer.files;
+      this.addImg(files);
+    },
+    addImg(files) {
       if (files.length) {
         const file = files[0];
         const imgType = /image.*/;
@@ -94,6 +111,9 @@ export default {
             this.imgSrc = file;
           } else {
             const reader = new FileReader();
+            const MAX_WIDTH = 250;
+            const MAX_HEIGHT = 250; //250~900
+
             reader.onload = () => {
               this.imgSrc = reader.result;
             };
@@ -103,6 +123,10 @@ export default {
           this.notImgError = true;
         }
       }
+    },
+    moveImg(e) {
+      const imgWidth = e.target.naturalWidth;
+      const imgHeight = e.target.naturalHeight;
     }
   }
 };
@@ -233,6 +257,7 @@ export default {
   font-size: 14px;
   color: #999;
   line-height: 30px;
+  user-select: none;
 }
 
 .error-area {
@@ -296,8 +321,8 @@ export default {
 }
 
 .img-container .img {
-  position: absolute;
   display: block;
+  position: absolute;
   cursor: move;
   user-select: none;
 }
@@ -308,12 +333,12 @@ export default {
   background-color: rgba(241, 242, 243, 0.8);
 }
 
-.img-shade .shade-left {
+.img-shade.shade-left {
   top: 0;
   left: 0;
 }
 
-.img-shade .shade-right {
+.img-shade.shade-right {
   bottom: 0;
   right: 0;
 }
@@ -370,6 +395,7 @@ export default {
   height: 18px;
   border-radius: 100%;
   border-color: rgba(0, 0, 0, 0.08);
+  cursor: pointer;
 }
 
 .fa-minus::before {

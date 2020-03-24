@@ -34,7 +34,14 @@
           <div class="crop-area" draggable="false">
             <div class="crop-left">
               <div class="img-container" draggable="false">
-                <img :src="imgSrc" class="img" id="img" @drag.prevent="moveImg" :style="imgStyle" />
+                <img
+                  :src="imgSrc"
+                  class="img"
+                  id="img"
+                  @load="resizeImg"
+                  @mousedown.prevent="moveImg"
+                  :style="imgStyle"
+                />
                 <div class="img-shade shade-left" style="width: 28px; height: 184px;"></div>
                 <div class="img-shade shade-right" style="width: 28px; height: 184px;"></div>
               </div>
@@ -79,9 +86,17 @@ export default {
       imgStyle: {
         top: "0px",
         left: "28px",
-        width: "250px",
+        width: "184px",
         height: "auto"
-      }
+      },
+      position: {
+        p1: 0,
+        p2: 0,
+        p3: 0,
+        p4: 0
+      },
+      h: 0,
+      w: 0
     };
   },
   methods: {
@@ -124,9 +139,70 @@ export default {
         }
       }
     },
-    moveImg(e) {
+    resizeImg(e) {
+      //240 180
+
+      // 이미지 크기 184 180
       const imgWidth = e.target.naturalWidth;
       const imgHeight = e.target.naturalHeight;
+      const per = imgHeight / imgWidth;
+
+      if (imgWidth > imgHeight) {
+        // 가로로 긴 이미지
+        this.imgStyle.height = "180px";
+        this.h = 180;
+        this.imgStyle.width = 180 / per + "px";
+        this.w = 180 / per;
+      } else {
+        // 세로로 긴 이미지 (혹은 가로세로가 같을 때)
+        this.imgStyle.width = "184px";
+        this.w = 184;
+        this.imgStyle.height = 184 * per + "px";
+        this.h = 184 * per;
+      }
+    },
+    moveImg(e) {
+      this.position.p3 = e.clientX;
+      this.position.p4 = e.clientY;
+
+      document.onmouseup = this.closeDragImg;
+      document.onmousemove = this.dragImg;
+    },
+    dragImg(e) {
+      this.position.p1 = this.position.p3 - e.clientX;
+      this.position.p2 = this.position.p4 - e.clientY;
+      this.position.p3 = e.clientX;
+      this.position.p4 = e.clientY;
+
+      const left = e.target.offsetLeft - this.position.p1;
+      const top = e.target.offsetTop - this.position.p2;
+      const wMin = 240 - this.w - 28;
+      const hMin = 180 - this.h;
+
+      //left (240-width-28)~28
+      if (left < wMin) {
+        this.imgStyle.left = wMin + "px";
+      } else if (left > 28) {
+        this.imgStyle.left = "28px";
+      } else {
+        this.imgStyle.left = left + "px";
+      }
+
+      // top 0~h
+      if (top < hMin) {
+        this.imgStyle.top = hMin + "px";
+      } else if (top > 0) {
+        this.imgStyle.top = "0px";
+      } else {
+        this.imgStyle.top = top + "px";
+      }
+
+      // this.imgStyle.top = e.target.offsetTop - this.position.p2 + "px";
+      // this.imgStyle.left = e.target.offsetLeft - this.position.p1 + "px";
+    },
+    closeDragImg() {
+      document.onmouseup = null;
+      document.onmousemove = null;
     }
   }
 };

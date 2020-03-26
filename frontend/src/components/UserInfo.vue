@@ -8,7 +8,8 @@
       </div>
 
       <div class="profile-wrapper">
-        <img class="avatar" />
+        <upload-component></upload-component>
+        <!-- <img class="avatar" /> -->
         <!-- <p class="avatar-text">프로필 이미지 변경하기</p> -->
         <p class="profile-name">{{username}}</p>
       </div>
@@ -19,9 +20,13 @@ l
 <script>
 import router from "../routes/routes.js";
 import axios from "axios";
+import UploadComponent from "./UploadComponent";
 
 export default {
   router,
+  components: {
+    UploadComponent
+  },
   data() {
     return {
       username: ""

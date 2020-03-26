@@ -47,13 +47,21 @@
               </div>
               <div class="img-range">
                 <i class="fas fa-minus"></i>
-                <input type="range" step="1" min="0" max="100" value="0" class="slider" />
+                <input
+                  type="range"
+                  step="0.1"
+                  min="1"
+                  max="3"
+                  class="slider"
+                  v-model="rangeValue"
+                  @input="expandImg"
+                />
                 <i class="fas fa-plus"></i>
               </div>
             </div>
 
             <div class="crop-right">
-              <div class="circle-preview" draggable="false">
+              <div class="circle-preview" draggable="false" style="width:180px; height:180px">
                 <img
                   :src="imgSrc"
                   id="previewImg"
@@ -65,7 +73,7 @@
             </div>
           </div>
           <div class="operate-area">
-            <a>Back</a>
+            <a @click="cancelImg">Back</a>
             <a>Save</a>
           </div>
         </div>
@@ -96,7 +104,10 @@ export default {
         p4: 0
       },
       h: 0,
-      w: 0
+      w: 0,
+      myH: 0,
+      myW: 0,
+      rangeValue: 1
     };
   },
   methods: {
@@ -139,6 +150,24 @@ export default {
         }
       }
     },
+    cancelImg() {
+      this.imgAdded = false;
+      this.filename = "";
+      this.imgSrc = "";
+      this.imgStyle.top = "0px";
+      this.imgStyle.left = "28px";
+      this.imgStyle.width = "184px";
+      this.imgStyle.height = "auto";
+      this.position.p1 = 0;
+      this.position.p2 = 0;
+      this.position.p3 = 0;
+      this.position.p4 = 0;
+      this.h = 0;
+      this.w = 0;
+      this.myH = 0;
+      this.myW = 0;
+      this.rangeValue = 1;
+    },
     resizeImg(e) {
       //240 180
 
@@ -151,14 +180,18 @@ export default {
         // 가로로 긴 이미지
         this.imgStyle.height = "180px";
         this.h = 180;
+        this.myH = 180;
         this.imgStyle.width = 180 / per + "px";
         this.w = 180 / per;
+        this.myW = 180 / per;
       } else {
         // 세로로 긴 이미지 (혹은 가로세로가 같을 때)
         this.imgStyle.width = "184px";
         this.w = 184;
+        this.myW = 184;
         this.imgStyle.height = 184 * per + "px";
         this.h = 184 * per;
+        this.myH = this.h;
       }
     },
     moveImg(e) {
@@ -196,13 +229,17 @@ export default {
       } else {
         this.imgStyle.top = top + "px";
       }
-
-      // this.imgStyle.top = e.target.offsetTop - this.position.p2 + "px";
-      // this.imgStyle.left = e.target.offsetLeft - this.position.p1 + "px";
     },
     closeDragImg() {
       document.onmouseup = null;
       document.onmousemove = null;
+    },
+    expandImg() {
+      this.rangeValue;
+      this.w = this.myW * this.rangeValue;
+      this.h = this.myH * this.rangeValue;
+      this.imgStyle.width = this.w + "px";
+      this.imgStyle.height = this.h + "px";
     }
   }
 };

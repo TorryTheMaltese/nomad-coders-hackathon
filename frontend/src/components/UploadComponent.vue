@@ -23,7 +23,8 @@
           <div class="error-area" v-if="notImgError">
             <div class="icon">
               <i class="fas fa-times"></i>
-            </div>Image Only
+            </div>
+            Image Only
           </div>
           <div class="operate-area">
             <a>Cancel</a>
@@ -40,6 +41,7 @@
                   id="img"
                   @load="resizeImg"
                   @mousedown.prevent="moveImg"
+                  @mouseup="makePreviewImg"
                   :style="imgStyle"
                 />
                 <div class="img-shade shade-left" style="width: 28px; height: 184px;"></div>
@@ -62,12 +64,7 @@
 
             <div class="crop-right">
               <div class="circle-preview" draggable="false" style="width:180px; height:180px">
-                <img
-                  :src="imgSrc"
-                  id="previewImg"
-                  draggable="false"
-                  style="width:180px; height:180px"
-                />
+                <img :src="previewSrc" id="previewImg" draggable="false" :style="previewStyle" />
                 <span>Preview</span>
               </div>
             </div>
@@ -96,6 +93,11 @@ export default {
         left: "28px",
         width: "184px",
         height: "auto"
+      },
+      previewSrc: "",
+      previewStyle: {
+        width: "180px",
+        height: "180px"
       },
       position: {
         p1: 0,
@@ -135,6 +137,7 @@ export default {
 
           if (typeof file === "string") {
             this.imgSrc = file;
+            this.previewSrc = this.imgSrc;
           } else {
             const reader = new FileReader();
             const MAX_WIDTH = 250;
@@ -142,6 +145,7 @@ export default {
 
             reader.onload = () => {
               this.imgSrc = reader.result;
+              this.previewSrc = this.imgSrc;
             };
             reader.readAsDataURL(file);
           }
@@ -240,6 +244,12 @@ export default {
       this.h = this.myH * this.rangeValue;
       this.imgStyle.width = this.w + "px";
       this.imgStyle.height = this.h + "px";
+    },
+    makePreviewImg(e) {
+      const cropImg = new Image();
+      this.previewSrc = this.imgSrc;
+      // offsetX 0~width 이미지의 위치
+      // offsetY 0~height
     }
   }
 };

@@ -52,7 +52,7 @@ export default {
     return {
       email: "",
       password: "",
-      msg: ""
+      msg: "",
     };
   },
   methods: {
@@ -73,8 +73,8 @@ export default {
     redirect() {
       console.log("Login Success");
       router.push({ name: "main" });
-    }
-  }
+    },
+  },
 };
 </script>
 

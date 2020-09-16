@@ -2,5 +2,3 @@
 
 npm i  
 npm run build
-
-webhook test

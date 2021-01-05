@@ -14,7 +14,7 @@
   "author": "TorryTheMaltese",
   "license": "ISC",
   "devDependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "babel-eslint": "^10.0.3",
     "css-loader": "^3.4.2",
     "eslint": "^6.8.0",
